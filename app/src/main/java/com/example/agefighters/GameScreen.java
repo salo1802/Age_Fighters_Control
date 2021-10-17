@@ -3,9 +3,11 @@ package com.example.agefighters;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-public class GameScreen extends AppCompatActivity {
+public class GameScreen extends AppCompatActivity implements MsgListener{
 
     private ImageView blueBtn, pinkBtn;
     private ImageView upBtn, downBtn, leftBtn, rightBtn;
@@ -24,6 +26,7 @@ public class GameScreen extends AppCompatActivity {
         rightBtn = findViewById(R.id.rightBtn);
 
         TCPSingleton tcp = TCPSingleton.getInstance();
+        tcp.setObserver(this);
 
         blueBtn.setOnClickListener(
                 (view) -> {
@@ -55,5 +58,14 @@ public class GameScreen extends AppCompatActivity {
                     tcp.sendMsg("right");
                 }
         );
+    }
+
+    @Override
+    public void msgReceived(String msg) {
+        Log.e("mensaje",msg);
+        runOnUiThread(()->{
+            if(msg!=null){
+            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();}
+        });
     }
 }
