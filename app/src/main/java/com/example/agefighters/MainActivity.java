@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MsgListener{
 
     TCPSingleton tcp;
 
@@ -22,17 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
         tcp = TCPSingleton.getInstance();
          tcp.start();
-            esperandoConexion();
+         tcp.setObserver(this);
+
 
     }
 
-    public void esperandoConexion(){
-        new Thread(()->{
-            while (true){
-            if(tcp.getLine()!=null){
-                Intent i = new Intent(this,GameScreen.class);
-                startActivity(i);
-            } }
-        }).start();
+
+
+    @Override
+    public void msgReceived(String msg) {
+        if(msg.equals("conectado")){
+            Intent i = new Intent(this,GameScreen.class);
+            startActivity(i);}
     }
 }

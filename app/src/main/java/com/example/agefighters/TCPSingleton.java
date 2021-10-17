@@ -20,7 +20,10 @@ public class TCPSingleton extends Thread{
     private BufferedWriter writer;
     private Socket socket;
     private   String line;
-
+    private MsgListener observer;
+    public void setObserver(MsgListener observer){
+        this.observer = observer;
+    }
     @Override
     public void run() {
         try {
@@ -34,6 +37,8 @@ public class TCPSingleton extends Thread{
 
             while (true){
                 line = lector.readLine();
+
+                observer.msgReceived(line);
             }
 
         } catch (IOException e) {
@@ -64,7 +69,5 @@ public class TCPSingleton extends Thread{
         ).start();
     }
 
-    public String getLine() {
-        return line;
-    }
+
 }
