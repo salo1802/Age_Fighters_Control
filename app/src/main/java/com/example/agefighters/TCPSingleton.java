@@ -25,7 +25,7 @@ public class TCPSingleton extends Thread{
     public void run() {
         try {
             //cambiar direccion ip
-            socket = new Socket("10.0.2.2",5000);
+            socket = new Socket("192.168.10.11", 5000);
             InputStream is = socket.getInputStream();
             OutputStream out = socket.getOutputStream();
 
